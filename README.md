@@ -4,3 +4,9 @@
 ## Пример использования
 
 [![asciicast](https://asciinema.org/a/7a6cb3a6-0a37-4e58-ac1e-309da788d934.svg)](https://asciinema.org/connect/7a6cb3a6-0a37-4e58-ac1e-309da788d934)
+
+## Пример работы
+
+[![asciicast](https://asciinema.org/a/7a6cb3a6-0a37-4e58-ac1e-309da788d934.svg)](https://asciinema.org/a/7a6cb3a6-0a37-4e58-ac1e-309da788d934)
+
+

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1751584098479" clover="3.2.0">
-  <project timestamp="1751584098479" name="All files">
+<coverage generated="1751663061738" clover="3.2.0">
+  <project timestamp="1751663061738" name="All files">
     <metrics statements="19" coveredstatements="18" conditionals="8" coveredconditionals="7" methods="4" coveredmethods="4" elements="31" coveredelements="29" complexity="0" loc="19" ncloc="19" packages="1" files="2" classes="2"/>
     <file name="genDiff.js" path="/Users/safia/frontend-project-46/src/genDiff.js">
       <metrics statements="11" coveredstatements="11" conditionals="6" coveredconditionals="6" methods="2" coveredmethods="2"/>
