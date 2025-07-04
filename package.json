@@ -5,9 +5,10 @@
   "description": "Вычислитель отличий",
   "main": "gendiff.js",
   "scripts": {
-    "test:coverage": "node --experimental-vm-modules node_modules/.bin/jest --coverage",
-    "lint": "eslint ."
-  },
+  "test": "node --experimental-vm-modules node_modules/.bin/jest",
+  "test:coverage": "node --experimental-vm-modules node_modules/.bin/jest --coverage",
+  "lint": "eslint ."
+},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Pentrick-star/frontend-project-46.git"
