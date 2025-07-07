@@ -6,13 +6,13 @@ const stringify = (value, depth) => {
   }
   const entries = Object.entries(value)
   const lines = entries.map(
-    ([key, val]) => `${getIndent(depth + 1)}${key}: ${stringify(val, depth + 1)}`
+    ([key, val]) => `${getIndent(depth + 1)}${key}: ${stringify(val, depth + 1)}`,
   )
   return `{\n${lines.join('\n')}\n${' '.repeat(depth * 4)}}`
 }
 
 const stylish = (ast, depth = 1) => {
-  const lines = ast.map(node => {
+  const lines = ast.map((node) => {
     switch (node.type) {
       case 'added':
         return `${getIndent(depth, '+')}${node.key}: ${stringify(node.value, depth)}`
@@ -23,7 +23,7 @@ const stylish = (ast, depth = 1) => {
       case 'changed':
         return [
           `${getIndent(depth, '-')}${node.key}: ${stringify(node.oldValue, depth)}`,
-          `${getIndent(depth, '+')}${node.key}: ${stringify(node.newValue, depth)}`
+          `${getIndent(depth, '+')}${node.key}: ${stringify(node.newValue, depth)}`,
         ].join('\n')
       case 'nested':
         return `${getIndent(depth)}${node.key}: ${stylish(node.children, depth + 1)}`
