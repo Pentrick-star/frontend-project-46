@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { Command } from 'commander';
-import genDiff from '../src/genDiff.js';
+import genDiff from './src/genDiff.js';
 
 const program = new Command();
 
@@ -16,11 +16,10 @@ program
     const diff = genDiff(filepath1, filepath2, options.format);
     console.log(diff);
   });
-
-// --- ЭТО ВАЖНО ---
+  
 if (process.argv.length <= 2) {
   program.outputHelp();
-  // НЕ вызывай process.exit()
+
 } else {
   program.parse(process.argv);
 }
