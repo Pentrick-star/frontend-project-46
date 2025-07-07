@@ -23,3 +23,5 @@ if (process.argv.length <= 2) {
 } else {
   program.parse(process.argv);
 }
+
+export default genDiff;
