@@ -24,6 +24,6 @@ const iter = (tree, ancestry = []) => tree
     }
   })
 
-const plain = (tree) => iter(tree).join('\n')
+const plain = tree => iter(tree).join('\n')
 
 export default plain
