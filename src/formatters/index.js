@@ -5,10 +5,10 @@ import json from './json.js'
 const formatters = {
   stylish,
   plain,
-  json,
+  json
 }
 
-export default (format) => {
+export default format => {
   if (!formatters[format]) {
     throw new Error(`Unknown format: ${format}`)
   }
