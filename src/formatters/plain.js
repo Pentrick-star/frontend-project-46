@@ -1,4 +1,4 @@
-const stringify = value => {
+const stringify = (value) => {
   if (value === null) return 'null'
   if (typeof value === 'boolean') return value.toString()
   if (typeof value === 'number') return value.toString()
@@ -7,7 +7,7 @@ const stringify = value => {
 }
 
 const iter = (tree, ancestry = []) => tree
-  .flatMap(node => {
+  .flatMap((node) => {
     const property = [...ancestry, node.key].join('.')
 
     switch (node.type) {
@@ -24,6 +24,6 @@ const iter = (tree, ancestry = []) => tree
     }
   })
 
-const plain = tree => iter(tree).join('\n')
+const plain = (tree) => iter(tree).join('\n')
 
 export default plain

@@ -2,9 +2,9 @@ import fs from 'fs'
 import path from 'path'
 import yaml from 'js-yaml'
 
-const getAbsolutePath = filepath => path.resolve(process.cwd(), filepath)
+const getAbsolutePath = (filepath) => path.resolve(process.cwd(), filepath)
 
-const parseFile = filepath => {
+const parseFile = (filepath) => {
   const absolutePath = getAbsolutePath(filepath)
   const ext = path.extname(absolutePath).toLowerCase()
 
