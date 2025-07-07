@@ -4,7 +4,6 @@ import { Command } from 'commander'
 import genDiff from './src/genDiff.js'
 
 const program = new Command()
-
 program
   .name('gendiff')
   .description('Compares two configuration files and shows a difference.')
@@ -16,10 +15,9 @@ program
     const diff = genDiff(filepath1, filepath2, options.format)
     console.log(diff)
   })
-  
+
 if (process.argv.length <= 2) {
   program.outputHelp()
-
 } else {
   program.parse(process.argv)
 }

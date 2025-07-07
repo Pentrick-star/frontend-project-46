@@ -12,7 +12,7 @@ const stringify = (value, depth) => {
 }
 
 const stylish = (ast, depth = 1) => {
-  const lines = ast.map((node) => {
+  const lines = ast.map(node => {
     switch (node.type) {
       case 'added':
         return `${getIndent(depth, '+')}${node.key}: ${stringify(node.value, depth)}`
@@ -23,7 +23,7 @@ const stylish = (ast, depth = 1) => {
       case 'changed':
         return [
           `${getIndent(depth, '-')}${node.key}: ${stringify(node.oldValue, depth)}`,
-          `${getIndent(depth, '+')}${node.key}: ${stringify(node.newValue, depth)}`,
+          `${getIndent(depth, '+')}${node.key}: ${stringify(node.newValue, depth)}`
         ].join('\n')
       case 'nested':
         return `${getIndent(depth)}${node.key}: ${stylish(node.children, depth + 1)}`
