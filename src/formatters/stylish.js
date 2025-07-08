@@ -14,21 +14,21 @@ const stringify = (value, depth) => {
 const stylish = (ast, depth = 1) => {
   const lines = ast.map((node) => {
     switch (node.type) {
-      case 'added':
-        return `${getIndent(depth, '+')}${node.key}: ${stringify(node.value, depth)}`
-      case 'removed':
-        return `${getIndent(depth, '-')}${node.key}: ${stringify(node.value, depth)}`
-      case 'unchanged':
-        return `${getIndent(depth)}${node.key}: ${stringify(node.value, depth)}`
-      case 'changed':
-        return [
-          `${getIndent(depth, '-')}${node.key}: ${stringify(node.oldValue, depth)}`,
-          `${getIndent(depth, '+')}${node.key}: ${stringify(node.newValue, depth)}`,
-        ].join('\n')
-      case 'nested':
-        return `${getIndent(depth)}${node.key}: ${stylish(node.children, depth + 1)}`
-      default:
-        throw new Error(`Unknown type: ${node.type}`)
+    case 'added':
+      return `${getIndent(depth, '+')}${node.key}: ${stringify(node.value, depth)}`
+    case 'removed':
+      return `${getIndent(depth, '-')}${node.key}: ${stringify(node.value, depth)}`
+    case 'unchanged':
+      return `${getIndent(depth)}${node.key}: ${stringify(node.value, depth)}`
+    case 'changed':
+      return [
+        `${getIndent(depth, '-')}${node.key}: ${stringify(node.oldValue, depth)}`,
+        `${getIndent(depth, '+')}${node.key}: ${stringify(node.newValue, depth)}`,
+      ].join('\n')
+    case 'nested':
+      return `${getIndent(depth)}${node.key}: ${stylish(node.children, depth + 1)}`
+    default:
+      throw new Error(`Unknown type: ${node.type}`)
     }
   })
   return `{\n${lines.join('\n')}\n${' '.repeat((depth - 1) * 4)}}`
