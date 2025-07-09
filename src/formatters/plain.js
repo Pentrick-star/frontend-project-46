@@ -1,32 +1,28 @@
 const stringify = (value) => {
   if (value === null) return 'null'
-  if (typeof value === 'boolean') return value.toString()
-  if (typeof value === 'number') return value.toString()
-  if (typeof value === 'string') return `'${value}'`
-  if (Array.isArray(value)) return '[complex value]'
+  
   if (typeof value === 'object') return '[complex value]'
-  return value
+  return typeof value === 'string' ? `'${value}'` : String(value)
 }
 
-const iter = (tree, ancestry = []) => tree
-  .flatMap((node) => {
-    const property = [...ancestry, node.key].join('.')
-
-    switch (node.type) {
+const iter = (tree, ancestry = []) => tree.flatMap((node) => {
+  const path = [...ancestry, node.key].join('.')
+  
+  switch (node.type) {
     case 'added':
-      return `Property '${property}' was added with value: ${stringify(node.value)}`
+      return `Property '${path}' was added with value: ${stringify(node.value)}`
     case 'removed':
-      return `Property '${property}' was removed`
+      return `Property '${path}' was removed`
     case 'changed':
-      return `Property '${property}' was updated. From ${stringify(node.oldValue)} to ${stringify(node.newValue)}`
+      return `Property '${path}' was updated. From ${stringify(node.oldValue)} to ${stringify(node.newValue)}`
     case 'nested':
       return iter(node.children, [...ancestry, node.key])
     case 'unchanged':
       return []
     default:
-      throw new Error(`Unknown node type: ${node.type}`)
-    }
-  })
+      throw new Error(`Unknown type: ${node.type}`)
+  }
+})
 
 const plain = (tree) => iter(tree).join('\n')
 
