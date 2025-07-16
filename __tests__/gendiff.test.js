@@ -1,12 +1,20 @@
-import genDiff from '../src/genDiff.js'
+import { test, expect } from '@jest/globals'
+import genDiff from '../src/index.js'
 import path from 'path'
-import fs from 'fs'
 
-const filepath1 = path.resolve('__fixtures__', 'file1.json')
-const filepath2 = path.resolve('__fixtures__', 'file2.json')
+const getFixturePath = (filename) => path.join('__fixtures__', filename)
 
-test('gendiff для плоских json файлов', () => {
-  const expected = fs.readFileSync(path.resolve('__fixtures__', 'expected_stylish.txt'), 'utf-8')
-  const result = genDiff(filepath1, filepath2)
-  expect(result).toBe(expected)
+test('gendiff flat yaml', () => {
+  const file1 = getFixturePath('file1.yml')
+  const file2 = getFixturePath('file2.yml')
+  const expected = `{
+  - follow: false
+    host: hexlet.io
+  - proxy: 123.234.53.22
+  - timeout: 50
+  + timeout: 20
+  + verbose: true
+}`
+
+  expect(genDiff(file1, file2)).toBe(expected)
 })
