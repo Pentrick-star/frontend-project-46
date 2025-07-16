@@ -1,1 +1,1 @@
-[![Node CI](https://github.com/yourusername/yourrepo/actions/workflows/node.js.yml/badge.svg)](https://github.com/yourusername/yourrepo/actions/workflows/node.js.yml)
+[![hexlet-check](https://github.com/Pentrick-star/frontend-project-46/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/Pentrick-star/frontend-project-46/actions/workflows/hexlet-check.yml)
