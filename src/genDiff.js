@@ -1,32 +1,29 @@
-import parseFile from './parsers.js'
-import _ from 'lodash'
+import fs from 'fs'
+import path from 'path'
+import parsers from './parsers.js'
+import buildDiff from './diff.js'
+import format from './formatters/index.js'
 
-const genDiff = (filepath1, filepath2) => {
-  const data1 = parseFile(filepath1)
-  const data2 = parseFile(filepath2)
+const getData = (filepath) => {
+  const fullPath = path.resolve(process.cwd(), filepath)
+  return fs.readFileSync(fullPath, 'utf-8')
+}
 
-  const keys = _.sortBy(_.union(Object.keys(data1), Object.keys(data2)))
+const getFormat = (filepath) => path.extname(filepath).slice(1)
 
-  const diff = keys.map((key) => {
-    if (!_.has(data2, key)) {
-      return `  - ${key}: ${data1[key]}`
-    }
+const genDiff = (filepath1, filepath2, formatter = 'stylish') => {
+  const data1 = getData(filepath1)
+  const data2 = getData(filepath2)
 
-    if (!_.has(data1, key)) {
-      return `  + ${key}: ${data2[key]}`
-    }
+  const format1 = getFormat(filepath1)
+  const format2 = getFormat(filepath2)
 
-    if (!_.isEqual(data1[key], data2[key])) {
-      return [
-        `  - ${key}: ${data1[key]}`,
-        `  + ${key}: ${data2[key]}`
-      ]
-    }
+  const obj1 = parsers(data1, format1)
+  const obj2 = parsers(data2, format2)
 
-    return `    ${key}: ${data1[key]}`
-  })
+  const diff = buildDiff(obj1, obj2)
 
-  return `{\n${diff.flat().join('\n')}\n}`
+  return format(diff, formatter)
 }
 
 export default genDiff
