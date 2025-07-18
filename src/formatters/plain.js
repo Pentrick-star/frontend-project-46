@@ -1,28 +1,40 @@
 import _ from 'lodash'
 
-const stringify = (value) => {
-  if (_.isObject(value)) return '[complex value]'
+const formatValue = (value) => {
+  if (_.isPlainObject(value)) return `[complex value]`
   if (typeof value === 'string') return `'${value}'`
-  return String(value)
+  return `${value}`
 }
 
-const iter = (tree, ancestry = []) => tree.flatMap((node) => {
-  const path = [...ancestry, node.key].join('.')
+export default (differences) => {
+  const iter = (currDiff, path = '') => {
+    const formattedDiff = currDiff.flatMap((data) => {
+      const currPath = `${path}${data.key}`
 
-  switch (node.type) {
-    case 'added':
-      return `Property '${path}' was added with value: ${stringify(node.value)}`
-    case 'removed':
-      return `Property '${path}' was removed`
-    case 'changed':
-      return `Property '${path}' was updated. From ${stringify(node.valueBefore)} to ${stringify(node.valueAfter)}`
-    case 'nested':
-      return iter(node.children, [...ancestry, node.key])
-    case 'unchanged':
+      if (data.status === 'nested') {
+        return [iter(data.children, `${currPath}.`)]
+      }
+
+      if (data.status === 'changed') {
+        const newValue = formatValue(data.newValue)
+        const oldValue = formatValue(data.oldValue)
+        return [`Property '${currPath}' was updated. From ${oldValue} to ${newValue}`]
+      }
+      if (data.status === 'unchanged') {
+        return []
+      }
+      if (data.status === 'added') {
+        const currValue = formatValue(data.value)
+        return [`Property '${currPath}' was added with value: ${currValue}`]
+      }
+      if (data.status === 'deleted') {
+        return [`Property '${currPath}' was removed`]
+      }
       return []
-    default:
-      throw new Error(`Unknown type: ${node.type}`)
-  }
-})
+    })
 
-export default (tree) => iter(tree).join('\n')
+    return formattedDiff.join(`\n`)
+  }
+
+  return iter(differences)
+}

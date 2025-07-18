@@ -1,15 +1,21 @@
 import stylish from './stylish.js'
 import plain from './plain.js'
+import json from './json.js'
 
-export default (diff, formatName = 'stylish') => {
-  switch (formatName) {
+const getFunForFormatting = (format) => {
+  switch (format) {
     case 'stylish':
-      return stylish(diff)
+      return stylish
     case 'plain':
-      return plain(diff)
+      return plain
     case 'json':
-      return JSON.stringify(diff, null, 2)
+      return json
     default:
-      throw new Error(`Unknown format: ${formatName}`)
+      throw new Error(`Format "${format}" is invalid. Supported formats: stylish, plain and json!`)
   }
+}
+
+export default (data, format) => {
+  const formatData = getFunForFormatting(format)
+  return formatData(data)
 }

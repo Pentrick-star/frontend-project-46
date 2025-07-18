@@ -1,29 +1,42 @@
-import fs from 'fs'
-import path from 'path'
-import parsers from './parsers.js'
-import buildDiff from './diff.js'
-import format from './formatters/index.js'
+import _ from 'lodash'
+import formatData from './formatters/index.js'
+import parseFile from './parsers.js'
 
-const getData = (filepath) => {
-  const fullPath = path.resolve(process.cwd(), filepath)
-  return fs.readFileSync(fullPath, 'utf-8')
+export const getDifferences = (object1, object2) => {
+  if (!_.isPlainObject(object1) || !_.isPlainObject(object2)) throw new Error(
+    `One or both of the passed arguments are invalid: first argument is ${object1}, second argument is ${object2}`)
+
+  const sortedUniqueObjectsKeys = _.sortBy(_.union(Object.keys(object1), Object.keys(object2)))
+
+  const differences = sortedUniqueObjectsKeys.map((key) => {
+    const keyValueInFirstObj = object1[key]
+    const keyValueInSecondObj = object2[key]
+
+    if (_.isPlainObject(keyValueInFirstObj) && _.isPlainObject(keyValueInSecondObj)) {
+      return { key, status: 'nested', children: getDifferences(keyValueInFirstObj, keyValueInSecondObj) }
+    }
+
+    if (!Object.hasOwn(object1, key)) {
+      return { key, value: keyValueInSecondObj, status: 'added' }
+    }
+    else if (!Object.hasOwn(object2, key)) {
+      return { key, value: keyValueInFirstObj, status: 'deleted' }
+    }
+    else if (keyValueInFirstObj === keyValueInSecondObj) {
+      return { key, value: keyValueInFirstObj, status: 'unchanged' }
+    }
+    else {
+      return { key, oldValue: keyValueInFirstObj, newValue: keyValueInSecondObj, status: 'changed' }
+    }
+  })
+
+  return differences
 }
 
-const getFormat = (filepath) => path.extname(filepath).slice(1)
-
-const genDiff = (filepath1, filepath2, formatter = 'stylish') => {
-  const data1 = getData(filepath1)
-  const data2 = getData(filepath2)
-
-  const format1 = getFormat(filepath1)
-  const format2 = getFormat(filepath2)
-
-  const obj1 = parsers(data1, format1)
-  const obj2 = parsers(data2, format2)
-
-  const diff = buildDiff(obj1, obj2)
-
-  return format(diff, formatter)
+export default (firstFilePath, secondFilePath, format = 'stylish') => {
+  const firstFileData = parseFile(firstFilePath)
+  const secondFileData = parseFile(secondFilePath)
+  const differences = getDifferences(firstFileData, secondFileData)
+  const formattedDiff = formatData(differences, format)
+  return formattedDiff
 }
-
-export default genDiff
