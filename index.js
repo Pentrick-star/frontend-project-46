@@ -1,7 +1,18 @@
 import parseFile from './parsers.js'
 
 const getIndent = (depth) => '    '.repeat(depth)
-const getSignLine = (sign, key, value, depth) => `${getIndent(depth - 1)}  ${sign} ${key}: ${value}`
+const getSignLine = (sign, key, value, depth) => {
+  if (typeof value !== 'object' || value === null) {
+    return `${getIndent(depth - 1)}  ${sign} ${key}: ${value}`
+  }
+  const indent = getIndent(depth)
+  const bracketIndent = getIndent(depth - 1)
+  const lines = Object.entries(value)
+    .map(([k, v]) => `${indent}${k}: ${formatValue(v, depth + 1)}`)
+  return `${getIndent(depth - 1)}  ${sign} ${key}: {
+${lines.join('\n')}
+${bracketIndent}}`
+}
 
 const formatValue = (value, depth) => {
   if (typeof value !== 'object' || value === null) {
@@ -28,10 +39,10 @@ const genDiff = (filepath1, filepath2) => {
       const val1 = obj1[key]
       const val2 = obj2[key]
       if (has1 && !has2) {
-        return [getSignLine('-', key, formatValue(val1, depth), depth)]
+        return [getSignLine('-', key, val1, depth)]
       }
       if (!has1 && has2) {
-        return [getSignLine('+', key, formatValue(val2, depth), depth)]
+        return [getSignLine('+', key, val2, depth)]
       }
       if (typeof val1 === 'object' && val1 !== null && typeof val2 === 'object' && val2 !== null) {
         return [`${getIndent(depth)}${key}: ${iter(val1, val2, depth + 1)}`]
@@ -40,8 +51,8 @@ const genDiff = (filepath1, filepath2) => {
         return [`${getIndent(depth)}${key}: ${formatValue(val1, depth + 1)}`]
       }
       return [
-        getSignLine('-', key, formatValue(val1, depth), depth),
-        getSignLine('+', key, formatValue(val2, depth), depth)
+        getSignLine('-', key, val1, depth),
+        getSignLine('+', key, val2, depth)
       ]
     })
     return `{
