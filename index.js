@@ -5,10 +5,9 @@ const getSignLine = (sign, key, value, depth) => {
   if (typeof value !== 'object' || value === null) {
     return `${getIndent(depth - 1)}  ${sign} ${key}: ${value}`
   }
-  const indent = getIndent(depth)
-  const bracketIndent = getIndent(depth - 1)
   const lines = Object.entries(value)
-    .map(([k, v]) => `${indent}${k}: ${formatValue(v, depth + 1)}`)
+    .map(([k, v]) => `${getIndent(depth + 1)}${k}: ${formatValue(v, depth + 2)}`)
+  const bracketIndent = getIndent(depth)
   return `${getIndent(depth - 1)}  ${sign} ${key}: {
 ${lines.join('\n')}
 ${bracketIndent}}`
@@ -18,10 +17,9 @@ const formatValue = (value, depth) => {
   if (typeof value !== 'object' || value === null) {
     return String(value)
   }
-  const indent = getIndent(depth)
-  const bracketIndent = getIndent(depth - 1)
   const lines = Object.entries(value)
-    .map(([key, val]) => `${indent}${key}: ${formatValue(val, depth + 1)}`)
+    .map(([key, val]) => `${getIndent(depth)}${key}: ${formatValue(val, depth + 1)}`)
+  const bracketIndent = getIndent(depth - 1)
   return `{
 ${lines.join('\n')}
 ${bracketIndent}}`
