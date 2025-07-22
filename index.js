@@ -75,6 +75,10 @@ const genDiff = (filepath1, filepath2, formatName = 'stylish') => {
     const diff = buildDiff(data1, data2)
     return formatPlain(diff)
   }
+  if (formatName === 'json') {
+    const diff = buildDiff(data1, data2)
+    return JSON.stringify(diff)
+  }
 
   const iter = (obj1, obj2, depth) => {
     const keys = Array.from(new Set([...Object.keys(obj1), ...Object.keys(obj2)])).sort()
