@@ -25,9 +25,56 @@ ${lines.join('\n')}
 ${bracketIndent}}`
 }
 
-const genDiff = (filepath1, filepath2) => {
+const isObject = (val) => typeof val === 'object' && val !== null
+
+const formatPlainValue = (val) => {
+  if (isObject(val)) return '[complex value]'
+  if (typeof val === 'string') return `'${val}'`
+  return String(val)
+}
+
+const buildDiff = (obj1, obj2) => {
+  const keys = Array.from(new Set([...Object.keys(obj1), ...Object.keys(obj2)])).sort()
+  return keys.map((key) => {
+    const has1 = Object.prototype.hasOwnProperty.call(obj1, key)
+    const has2 = Object.prototype.hasOwnProperty.call(obj2, key)
+    const val1 = obj1[key]
+    const val2 = obj2[key]
+    if (has1 && !has2) return { type: 'removed', key, value: val1 }
+    if (!has1 && has2) return { type: 'added', key, value: val2 }
+    if (isObject(val1) && isObject(val2)) return { type: 'nested', key, children: buildDiff(val1, val2) }
+    if (val1 !== val2) return { type: 'updated', key, oldValue: val1, newValue: val2 }
+    return { type: 'unchanged', key, value: val1 }
+  })
+}
+
+const formatPlain = (diff, ancestry = []) => {
+  const lines = diff.flatMap((node) => {
+    const property = [...ancestry, node.key].join('.')
+    switch (node.type) {
+      case 'nested':
+        return formatPlain(node.children, [...ancestry, node.key])
+      case 'added':
+        return `Property '${property}' was added with value: ${formatPlainValue(node.value)}`
+      case 'removed':
+        return `Property '${property}' was removed`
+      case 'updated':
+        return `Property '${property}' was updated. From ${formatPlainValue(node.oldValue)} to ${formatPlainValue(node.newValue)}`
+      default:
+        return []
+    }
+  })
+  return lines.join('\n')
+}
+
+const genDiff = (filepath1, filepath2, formatName = 'stylish') => {
   const data1 = parseFile(filepath1)
   const data2 = parseFile(filepath2)
+
+  if (formatName === 'plain') {
+    const diff = buildDiff(data1, data2)
+    return formatPlain(diff)
+  }
 
   const iter = (obj1, obj2, depth) => {
     const keys = Array.from(new Set([...Object.keys(obj1), ...Object.keys(obj2)])).sort()
