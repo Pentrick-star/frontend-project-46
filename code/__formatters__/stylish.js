@@ -5,9 +5,9 @@ const stringify = (data, depth) => {
   if (typeof data !== 'object' || data === null) return String(data)
   const entries = Object.entries(data)
   const indent = makeIndent(depth + 1)
-  const lines = entries.map(
-    ([key, val]) => `${indent}  ${key}: ${stringify(val, depth + 1)}`,
-  )
+  const lines = entries.map(([key, val]) => {
+    return `${indent}  ${key}: ${stringify(val, depth + 1)}`
+  })
   return `{\n${lines.join('\n')}\n${bracketIndent(depth + 1)}}`
 }
 
