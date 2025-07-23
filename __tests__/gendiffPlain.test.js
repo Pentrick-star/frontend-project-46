@@ -1,4 +1,4 @@
-import { expect, test } from 'vitest'
+import { test, expect } from 'vitest'
 import path from 'path'
 import fs from 'fs'
 import genDiff from '../code/index.js'

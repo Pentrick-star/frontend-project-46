@@ -4,7 +4,7 @@
   "description": "[![Actions Status](https://github.com/Pentrick-star/frontend-project-46/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/Pentrick-star/frontend-project-46/actions)",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "vitest run",
     "lint": "eslint ."
   },
   "repository": {
@@ -12,7 +12,7 @@
     "url": "git+https://github.com/Pentrick-star/frontend-project-46.git"
   },
   "bin": {
-    "gendiff": "./gendiff.js"
+    "gendiff": "./bin/gendiff.js"
   },
   "keywords": [],
   "author": "",
@@ -30,7 +30,6 @@
   "devDependencies": {
     "@eslint/js": "^9.31.0",
     "@stylistic/eslint-plugin": "^5.2.2",
-    "eslint": "^9.31.0",
-    "jest": "^30.0.5"
+    "eslint": "^9.31.0"
   }
 }
