@@ -8,7 +8,8 @@ const parse = (content, ext) => {
   throw new Error(`Неизвестный формат: ${ext}`)
 }
 
-export default filepath => {
+// eslint-disable-next-line stylistic/arrow-parens
+export default (filepath) => {
   const absPath = path.resolve(process.cwd(), filepath)
   const content = fs.readFileSync(absPath, 'utf-8')
   const ext = path.extname(filepath)

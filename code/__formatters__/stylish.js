@@ -13,7 +13,8 @@ const stringify = (data, depth) => {
 
 const stylish = (tree, depth = 1) => {
   const indent = makeIndent(depth)
-  const lines = tree.map(node => {
+  // eslint-disable-next-line stylistic/arrow-parens
+  const lines = tree.map((node) => {
     switch (node.type) {
       case 'added':
         return `${indent}+ ${node.key}: ${stringify(node.value, depth)}`
