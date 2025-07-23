@@ -11,13 +11,12 @@ export default [
       globals: {
         test: 'readonly',
         expect: 'readonly',
-        console: 'readonly',
         process: 'readonly',
+        console: 'readonly',
       },
     },
     rules: {
-      'stylistic/arrow-parens': ['error', 'as-needed'],
-      'stylistic/comma-dangle': ['error', 'always-multiline'],
+      'stylistic/arrow-parens': ['error', 'always'],
       'stylistic/eol-last': ['error', 'always'],
       'stylistic/no-trailing-spaces': 'error',
     },
