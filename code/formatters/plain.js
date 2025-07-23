@@ -7,11 +7,10 @@ const formatValue = (value) => {
 }
 
 const plain = (tree, parent = '') => {
-  const lines = tree
-    .flatMap((node) => {
-      const propertyPath = parent ? `${parent}.${node.key}` : node.key
+  const lines = tree.flatMap((node) => {
+    const propertyPath = parent ? `${parent}.${node.key}` : node.key
 
-      switch (node.type) {
+    switch (node.type) {
       case 'added':
         return `Property '${propertyPath}' was added with value: ${formatValue(node.value)}`
       case 'removed':
@@ -24,8 +23,8 @@ const plain = (tree, parent = '') => {
         return []
       default:
         throw new Error(`Unknown node type: ${node.type}`)
-      }
-    })
+    }
+  })
 
   return lines.join('\n')
 }
