@@ -1,4 +1,4 @@
-import js from '@eslint/js';
+import js from '@eslint/js'
 
 export default [
   js.configs.recommended,
@@ -14,13 +14,13 @@ export default [
       },
     },
     rules: {
-      semi: ['error', 'always'],
+      semi: ['error', 'never'],
       indent: ['error', 2],
+      'no-trailing-spaces': 'error',
+      'eol-last': ['error', 'always'],
+      'no-multiple-empty-lines': ['error', { max: 1 }],
       'no-unused-vars': ['warn'],
       'arrow-parens': ['error', 'always'],
-      'eol-last': ['error', 'always'],
-      'no-trailing-spaces': ['error'],
-      'no-multiple-empty-lines': ['error', { max: 1 }],
     },
   },
-];
+]
