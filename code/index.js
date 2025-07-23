@@ -1,4 +1,4 @@
-import parse from './parsers.js'
+import parse from '../parsers.js'
 import buildDiff from './buildDiff.js'
 import getFormatter from './formatters/index.js'
 
