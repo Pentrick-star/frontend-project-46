@@ -1,6 +1,6 @@
 import parseFile from './parsers.js'
 
-const getIndent = (depth) => '    '.repeat(depth)
+const getIndent = depth => '    '.repeat(depth)
 const getSignLine = (sign, key, value, depth) => {
   if (typeof value !== 'object' || value === null) {
     return `${getIndent(depth - 1)}  ${sign} ${key}: ${value}`
@@ -25,9 +25,9 @@ ${lines.join('\n')}
 ${bracketIndent}}`
 }
 
-const isObject = (val) => typeof val === 'object' && val !== null
+const isObject = val => typeof val === 'object' && val !== null
 
-const formatPlainValue = (val) => {
+const formatPlainValue = val => {
   if (isObject(val)) return '[complex value]'
   if (typeof val === 'string') return `'${val}'`
   return String(val)
@@ -35,7 +35,7 @@ const formatPlainValue = (val) => {
 
 const buildDiff = (obj1, obj2) => {
   const keys = Array.from(new Set([...Object.keys(obj1), ...Object.keys(obj2)])).sort()
-  return keys.map((key) => {
+  return keys.map(key => {
     const has1 = Object.prototype.hasOwnProperty.call(obj1, key)
     const has2 = Object.prototype.hasOwnProperty.call(obj2, key)
     const val1 = obj1[key]
@@ -49,7 +49,7 @@ const buildDiff = (obj1, obj2) => {
 }
 
 const formatPlain = (diff, ancestry = []) => {
-  const lines = diff.flatMap((node) => {
+  const lines = diff.flatMap(node => {
     const property = [...ancestry, node.key].join('.')
     switch (node.type) {
       case 'nested':
@@ -82,7 +82,7 @@ const genDiff = (filepath1, filepath2, formatName = 'stylish') => {
 
   const iter = (obj1, obj2, depth) => {
     const keys = Array.from(new Set([...Object.keys(obj1), ...Object.keys(obj2)])).sort()
-    const lines = keys.flatMap((key) => {
+    const lines = keys.flatMap(key => {
       const has1 = Object.prototype.hasOwnProperty.call(obj1, key)
       const has2 = Object.prototype.hasOwnProperty.call(obj2, key)
       const val1 = obj1[key]
