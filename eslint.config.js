@@ -1,10 +1,8 @@
 import js from '@eslint/js'
-import stylistic from '@stylistic/eslint-plugin'
 
 export default [
   js.configs.recommended,
   {
-    plugins: { stylistic },
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
@@ -16,9 +14,11 @@ export default [
       },
     },
     rules: {
-      'stylistic/arrow-parens': ['error', 'always'],
-      'stylistic/eol-last': ['error', 'always'],
-      'stylistic/no-trailing-spaces': 'error',
+      'no-unused-vars': ['warn'],
+      'no-trailing-spaces': ['error'],
+      'eol-last': ['error', 'always'],
+      'arrow-parens': ['error', 'always'],
+      'curly': ['error', 'all'],
     },
   },
 ]
