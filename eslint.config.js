@@ -21,6 +21,7 @@ export default [
       'no-multiple-empty-lines': ['error', { max: 1 }],
       'no-unused-vars': ['warn'],
       'arrow-parens': ['error', 'always'],
+      '@stylistic/arrow-parens': 'off',
     },
   },
 ]
