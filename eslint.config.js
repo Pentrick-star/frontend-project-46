@@ -1,4 +1,4 @@
-import js from '@eslint/js'
+import js from '@eslint/js';
 
 export default [
   js.configs.recommended,
@@ -9,16 +9,18 @@ export default [
       globals: {
         test: 'readonly',
         expect: 'readonly',
-        process: 'readonly',
         console: 'readonly',
+        process: 'readonly',
       },
     },
     rules: {
+      semi: ['error', 'always'],
+      indent: ['error', 2],
       'no-unused-vars': ['warn'],
-      'no-trailing-spaces': ['error'],
-      'eol-last': ['error', 'always'],
       'arrow-parens': ['error', 'always'],
-      'curly': ['error', 'all'],
+      'eol-last': ['error', 'always'],
+      'no-trailing-spaces': ['error'],
+      'no-multiple-empty-lines': ['error', { max: 1 }],
     },
   },
-]
+];
