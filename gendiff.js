@@ -13,7 +13,7 @@ program
   .arguments('<filepath1> <filepath2>')
   .action((filepath1, filepath2, options) => {
     const diff = genDiff(filepath1, filepath2, options.format)
-    // eslint-disable-next-line no-undef
+
     console.log(diff)
   })
 

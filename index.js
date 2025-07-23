@@ -101,7 +101,7 @@ const genDiff = (filepath1, filepath2, formatName = 'stylish') => {
       }
       return [
         getSignLine('-', key, val1, depth),
-        getSignLine('+', key, val2, depth)
+        getSignLine('+', key, val2, depth),
       ]
     })
     return `{
@@ -112,4 +112,4 @@ ${getIndent(depth - 1)}}`
   return iter(data1, data2, 1)
 }
 
-export default genDiff 
+export default genDiff

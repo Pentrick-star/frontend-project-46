@@ -5,10 +5,21 @@ export default [
   js.configs.recommended,
   {
     plugins: { stylistic },
+    languageOptions: {
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+      globals: {
+        test: 'readonly',
+        expect: 'readonly',
+        console: 'readonly',
+        process: 'readonly',
+      },
+    },
     rules: {
       'stylistic/arrow-parens': ['error', 'as-needed'],
-      'stylistic/indent': ['error', 2],
-      // ... другие правила по необходимости
+      'stylistic/comma-dangle': ['error', 'always-multiline'],
+      'stylistic/eol-last': ['error', 'always'],
+      'stylistic/no-trailing-spaces': 'error',
     },
   },
 ]
